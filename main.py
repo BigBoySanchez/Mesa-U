@@ -19,6 +19,7 @@ def initial_page(screen):
     global running
     global initial_page_load
     global email_page_load
+    global blue_screen_page_load
 
     # fill the background first, then add stuff later
     screen.fill("white")
@@ -43,6 +44,8 @@ def initial_page(screen):
 
     # Start button
     begin_button_rect = pygame.Rect((begin_button_x, begin_button_y, begin_button_width, begin_button_height))
+    bluescreen_button_rect = pygame.draw.rect(screen, (0, 255, 0), [30, 30, begin_button_width, begin_button_height])
+
     screen.blit(begin_button, begin_button_rect.topleft)
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -54,6 +57,10 @@ def initial_page(screen):
                 print("butoon clicked")
                 initial_page_load = False
                 email_page_load = True
+            elif bluescreen_button_rect.collidepoint(pos):
+                print("blue")
+                initial_page_load = False
+                blue_screen_page_load = True
 
     # for event in pygame.event.get():
     #    if green_button.get_rect().collidepoint(pos):
@@ -101,15 +108,16 @@ def email_page(screen):
 
 NUM_LIVES = 3
 def bluescreen(screen):
-    WIDTH, HEIGHT = screen.get_size()
     global running
     global NUM_LIVES
+    WIDTH, HEIGHT = screen.get_size()
 
     mouse_pos = pygame.mouse.get_pos()
 
     screen.fill("blue")
 
     hackFont = pygame.font.Font(None, 220)
+    numFont = pygame.font.Font(None, 100)
 
     sadText = pygame.font.Font(None, 270).render(":(", True, (255, 255, 255))  # Render ":(" in white
     # hackFont.set_bold(True)
@@ -131,16 +139,16 @@ def bluescreen(screen):
     for x in range(0, NUM_LIVES):
         if x != 0:
             pygame.draw.line(screen, (0, 0, 0), ((x * infoWidth / NUM_LIVES) + wholeRect.x, wholeRect.top), ((x * infoWidth / NUM_LIVES) + wholeRect.x, wholeRect.bottom))
-            numFont = pygame.font.Font(None, 100)
-            numText = numFont.render((str)(x + 1), True, (0, 0, 0))
-            numRect = numText.get_rect(center=(wholeRect.x + ((x + 0.5) * infoWidth / NUM_LIVES), wholeRect.y + (wholeRect.h / 2)))
+        
+        numText = numFont.render((str)(x + 1), True, (0, 0, 0))
+        numRect = numText.get_rect(center=(wholeRect.x + ((x + 0.5) * infoWidth / NUM_LIVES), wholeRect.y + (wholeRect.h / 2)))
 
-            screen.blit(numText, (numRect.left, numRect.top))
+        screen.blit(numText, (numRect.left, numRect.top))
 
 
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                running = False
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
 
 def main():
     pygame.init()
@@ -153,7 +161,7 @@ def main():
         elif email_page_load:
             email_page(screen)
         elif blue_screen_page_load:
-            pass
+            bluescreen(screen)
 
         pygame.display.flip()
 
