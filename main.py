@@ -6,6 +6,17 @@ email_page_load = False
 blue_screen_page_load = False
 running = True
 
+class Button:
+    def __init__(self,x, y, width, height, text="", color="", image=""):
+        self.x = x
+        self.y = y
+        self.width = width
+        self.height = height
+        self.text = text
+        self.color = color
+        self.image = image
+
+
 
 def initial_page(screen):
     # Grab the needed globals
