@@ -31,15 +31,16 @@ def initial_page(screen):
     # Main text
     start_font = pygame.font.Font(None, 35)
     start_text = start_font.render("Totally secure email client", True, (0, 0, 0))
-    screen.blit(start_text, (450, 100))
+    screen.blit(start_text, (25, 25))
 
     # Begin Button
     begin_button_width = 200
     begin_button_height = 50
-    begin_button_x = 550
-    begin_button_y = 500
+    begin_button_x = 540
+    begin_button_y = 510
     begin_button = pygame.Surface((begin_button_width, begin_button_height))
     begin_button_image = pygame.image.load("./images/login-btn.png")
+    # begin_button.fill("white")
 
     begin_button_font = pygame.font.Font(None, 35)
     begin_button_text = begin_button_font.render("Start", True, (0, 0, 0))
@@ -48,7 +49,7 @@ def initial_page(screen):
 
     # Start button
     begin_button_rect = pygame.Rect((begin_button_x, begin_button_y, begin_button_width, begin_button_height))
-    bluescreen_button_rect = pygame.draw.rect(screen, (0, 255, 0), [30, 30, begin_button_width, begin_button_height])
+    bluescreen_button_rect = pygame.draw.rect(screen, (0, 255, 0), [1200, 600, begin_button_width, begin_button_height])
 
     screen.blit(begin_button, begin_button_rect.topleft)
     for event in pygame.event.get():
@@ -89,7 +90,7 @@ def email_page(screen):
 
     back_button = pygame.Surface((back_button_width, back_button_height))
     back_button.fill((125, 95, 125))
-    back_button_rect = pygame.Rect((5, 5, back_button_width, back_button_height))
+    back_button_rect = pygame.Rect((1235, 5, back_button_width, back_button_height))
     back_button_font = pygame.font.Font(None, 35)
 
     back_button_text = back_button_font.render("B", True, (0, 0, 0))
@@ -109,7 +110,6 @@ def email_page(screen):
 
             # Back button
             if back_button_rect.collidepoint(pos):
-                print("Going back to start")
                 game_config.initial_page_load = True
                 game_config.email_page_load = False
 
@@ -149,7 +149,7 @@ def bluescreen(screen):
     retry_button.blit(retry_button_text, (5, 5))
 
     screen.blit(retry_button, retry_button_rect)
-    
+
     # making the loss info boxes
     infoWidth = WIDTH / 1.5
     wholeRect = pygame.draw.rect(screen, (255, 255, 255), [whyRect.right + 40, whyRect.bottom + 10, infoWidth, 100])
