@@ -78,6 +78,11 @@ def email_page(screen):
     global email_page_load
     screen.fill("white")
 
+    # Background image
+    bg_image = pygame.image.load("./images/email-bg.png")
+    bg_image = pygame.transform.scale(bg_image, (1280, 720))
+    screen.blit(bg_image, (0,0))
+
     # Back button
     back_button_width = 30
     back_button_height = 30
