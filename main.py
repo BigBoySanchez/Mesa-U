@@ -1,7 +1,6 @@
 import pygame
-import config.py
+import game_config
 
-# Global State
 
 class Button:
     def __init__(self,x, y, width, height, text="", color="", image=""):
@@ -35,7 +34,7 @@ def initial_page(screen):
     begin_button_x = 550
     begin_button_y = 500
     begin_button = pygame.Surface((begin_button_width, begin_button_height))
-    begin_button.fill((0, 255, 0))
+    begin_button_image = pygame.image.load("./images/login-btn.png")
 
     begin_button_font = pygame.font.Font(None, 35)
     begin_button_text = begin_button_font.render("Start", True, (0, 0, 0))
@@ -49,18 +48,18 @@ def initial_page(screen):
     screen.blit(begin_button, begin_button_rect.topleft)
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
-            running = False
+            game_config.running = False
         if event.type == pygame.MOUSEBUTTONUP:
             pos = pygame.mouse.get_pos()
             if begin_button_rect.collidepoint(pos):
                 # goto next screen
                 print("butoon clicked")
-                initial_page_load = False
-                email_page_load = True
+                game_config.initial_page_load = False
+                game_config.email_page_load = True
             elif bluescreen_button_rect.collidepoint(pos):
                 print("blue")
-                initial_page_load = False
-                blue_screen_page_load = True
+                game_config.initial_page_load = False
+                game_config.blue_screen_page_load = True
 
     # for event in pygame.event.get():
     #    if green_button.get_rect().collidepoint(pos):
@@ -92,7 +91,7 @@ def email_page(screen):
     for event in pygame.event.get():
         # Quit the game
         if event.type == pygame.QUIT:
-            running = False
+            game_config.running = False
 
         # Buttons alone
         if event.type == pygame.MOUSEBUTTONUP:
@@ -101,14 +100,13 @@ def email_page(screen):
             # Back button
             if back_button_rect.collidepoint(pos):
                 print("Going back to start")
-                initial_page_load = True
-                email_page_load = False
+                game_config.initial_page_load = True
+                game_config.email_page_load = False
 
             # Other buttons
 
 NUM_LIVES = 3
 def bluescreen(screen):
-    global running
     global NUM_LIVES
     WIDTH, HEIGHT = screen.get_size()
 
@@ -148,19 +146,19 @@ def bluescreen(screen):
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
-            running = False
+            game_config.running = False
 
 def main():
     pygame.init()
     screen = pygame.display.set_mode((1270, 700))
     clock = pygame.time.Clock()
-    while running:
+    while game_config.running:
         # Fill the screen with blue
-        if initial_page_load:
+        if game_config.initial_page_load:
             initial_page(screen)
-        elif email_page_load:
+        elif game_config.email_page_load:
             email_page(screen)
-        elif blue_screen_page_load:
+        elif game_config.blue_screen_page_load:
             bluescreen(screen)
 
         pygame.display.flip()
