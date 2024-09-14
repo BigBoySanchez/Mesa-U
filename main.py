@@ -23,6 +23,11 @@ def initial_page(screen):
     # fill the background first, then add stuff later
     screen.fill("white")
 
+    # Background image
+    bg_image = pygame.image.load("./images/mainmenu-bg.png")
+    bg_image = pygame.transform.scale(bg_image, (1280, 720))
+    screen.blit(bg_image, (0,0))
+
     # Main text
     start_font = pygame.font.Font(None, 35)
     start_text = start_font.render("Totally secure email client", True, (0, 0, 0))
