@@ -136,6 +136,15 @@ def bluescreen(screen):
     screen.blit(hackTitle, (sadRect.left, sadRect.bottom + 30))
     screen.blit(whyText, (hackRect.left, hackRect.bottom + 70))
 
+    retry_button = pygame.Surface((200, 50))
+    retry_button.fill((255, 255, 255))
+    retry_button_rect = pygame.Rect((600, 600, 200, 50))
+    retry_button_font = pygame.font.Font(None, 35)
+    retry_button_text = retry_button_font.render("New Game", True, (0, 0, 0))
+    retry_button.blit(retry_button_text, (5, 5))
+
+    screen.blit(retry_button, retry_button_rect)
+    
     # making the loss info boxes
     infoWidth = WIDTH / 1.5
     wholeRect = pygame.draw.rect(screen, (255, 255, 255), [whyRect.right + 40, whyRect.bottom + 10, infoWidth, 100])
@@ -152,6 +161,10 @@ def bluescreen(screen):
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             game_config.running = False
+        if event.type == pygame.MOUSEBUTTONUP:
+            if retry_button_rect.collidepoint(mouse_pos):
+                game_config.initial_page_load = True
+                game_config.blue_screen_page_load = False
 
 def main():
     pygame.init()
