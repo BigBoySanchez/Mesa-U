@@ -1,10 +1,7 @@
 import pygame
+import config.py
 
 # Global State
-initial_page_load = True
-email_page_load = False
-blue_screen_page_load = False
-running = True
 
 class Button:
     def __init__(self,x, y, width, height, text="", color="", image=""):
@@ -15,7 +12,6 @@ class Button:
         self.text = text
         self.color = color
         self.image = image
-
 
 
 def initial_page(screen):
