@@ -53,6 +53,9 @@ def initial_page(screen):
     #        print("Button Clicked")
 
 
+
+
+
 def email_page(screen):
     # Globals
     global running
@@ -91,6 +94,55 @@ def email_page(screen):
                 email_page_load = False
 
             # Other buttons
+
+
+def bluescreen(screen) -> bool:
+    WIDTH, HEIGHT = screen.get_size()
+    NUM_LIVES = 3
+
+    running = True
+    while running:
+        mouse_pos = pygame.mouse.get_pos()
+        
+
+        screen.fill("blue")
+
+        hackFont = pygame.font.Font(None, 220)
+
+        sadText = pygame.font.Font(None, 270).render(":(", True, (255, 255, 255))  # Render ":(" in white
+        # hackFont.set_bold(True)
+        
+        hackTitle = hackFont.render("You got hacked!", True, (255, 255, 255))
+        whyText = pygame.font.Font(None, 80).render("Here's why:", True, (255, 255, 255))
+
+        sadRect = sadText.get_rect(topleft=(WIDTH / 32, HEIGHT / 16))
+        hackRect = hackTitle.get_rect(topleft=(sadRect.left, sadRect.bottom))
+        whyRect = whyText.get_rect(topleft=(hackRect.left, hackRect.bottom))
+
+        screen.blit(sadText, (sadRect.left, sadRect.top))
+        screen.blit(hackTitle, (sadRect.left, sadRect.bottom + 30))
+        screen.blit(whyText, (hackRect.left, hackRect.bottom + 70))
+
+        # making the loss info boxes
+        infoWidth = WIDTH / 1.5
+        wholeRect = pygame.draw.rect(screen, (255, 255, 255), [whyRect.right + 40, whyRect.bottom + 10, infoWidth, 100])
+        for x in range(0, NUM_LIVES):
+            if x != 0:
+                pygame.draw.line(screen, (0, 0, 0), ((x * infoWidth / NUM_LIVES) + wholeRect.x, wholeRect.top), ((x * infoWidth / NUM_LIVES) + wholeRect.x, wholeRect.bottom))
+            numFont = pygame.font.Font(None, 100)
+            numText = numFont.render((str)(x + 1), True, (0, 0, 0))
+            numRect = numText.get_rect(center=(wholeRect.x + ((x + 0.5) * infoWidth / NUM_LIVES), wholeRect.y + (wholeRect.h / 2)))
+            
+            screen.blit(numText, (numRect.left, numRect.top))
+
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
+        
+        pygame.display.flip()
+    
+    return running
 
 
 def main():
