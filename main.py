@@ -111,6 +111,12 @@ def email_page(screen):
 
     screen.blit(back_button, back_button_rect.topleft)
 
+    # life bar
+    heart_scale = 0.09
+    heart_image = pygame.image.load("./images/heart-full.png")
+    heart_width, heart_height = heart_image.get_size()
+    heart_image = pygame.transform.scale(heart_image, (heart_width * heart_scale, heart_height * heart_scale))
+
     # email sidebar and display
     email_rect = pygame.Rect(0, 0, WIDTH * 0.2488, HEIGHT)
 
@@ -145,6 +151,12 @@ def email_page(screen):
                     
                     email_num = pos[1] // (HEIGHT / 3)
                     to_display = emails[(int)(email_num)]
+
+                    # clear previous marks
+                    for i in range(0, 3):
+                        pygame.draw.rect(screen, (255, 255, 255), [41.5, 80 + (i * (HEIGHT / 3.0889)), heart_width * heart_scale, heart_height * heart_scale])
+                    screen.blit(heart_image, (41.5, 80 + (email_num * (HEIGHT / 3.0889))))
+
 
                     # mark the correct box
                     subject_font = pygame.font.Font(None, 90)
