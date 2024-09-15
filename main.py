@@ -103,7 +103,7 @@ def email_page(screen):
     back_button_height = 30
 
     back_button = pygame.Surface((back_button_width, back_button_height))
-    back_button.fill((125, 95, 125))
+    back_button.fill((200, 200, 200))
     back_button_rect = pygame.Rect((1230 - 5, 5, back_button_width, back_button_height))
     back_button_font = pygame.font.Font(None, 35)
 
