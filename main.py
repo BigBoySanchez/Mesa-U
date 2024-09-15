@@ -1,5 +1,6 @@
 import pygame
 import game_config
+import random
 from make_emails import make_emails
 
 
@@ -124,6 +125,11 @@ def email_page(screen):
     pfp_rect = pygame.draw.rect(screen, "white", [436, 180, 55, 55])
 
     emails = make_emails(screen, "white")
+    chosen_emails = []
+    for i in range(0, 3):
+        chosen_email = random.choice(emails)
+        chosen_emails.append(chosen_email)
+        emails.remove(chosen_email)
 
     # Event loop
     curr_running = True
@@ -150,7 +156,7 @@ def email_page(screen):
                     right_rect = pygame.draw.rect(screen, (255, 255, 255), [email_rect.right, 40, WIDTH * (1 - 0.2488 + 0.001), HEIGHT])
                     
                     email_num = pos[1] // (HEIGHT / 3)
-                    to_display = emails[(int)(email_num)]
+                    to_display = chosen_emails[(int)(email_num)]
 
                     # clear previous marks
                     for i in range(0, 3):
@@ -159,7 +165,7 @@ def email_page(screen):
 
 
                     # mark the correct box
-                    subject_font = pygame.font.Font(None, 90)
+                    subject_font = pygame.font.Font(None, 70)
                     subject_text = subject_font.render(to_display.subject, True, (0, 0, 0))
                     subject_rect = screen.blit(subject_text, (pfp_rect.left - 10, 40))
 
