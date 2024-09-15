@@ -60,7 +60,7 @@ def initial_page(screen):
 
     screen.blit(help_menu_button, help_menu_button_rect)
     # Start button
-    bluescreen_button_rect = pygame.draw.rect(screen, (0, 255, 0), [1200, 600, begin_button_width, begin_button_height])
+    # bluescreen_button_rect = pygame.draw.rect(screen, (0, 255, 0), [1200, 600, begin_button_width, begin_button_height])
 
     screen.blit(begin_button, begin_button_rect.topleft)
     for event in pygame.event.get():
@@ -72,9 +72,9 @@ def initial_page(screen):
                 # goto next screen
                 game_config.initial_page_load = False
                 game_config.email_page_load = True
-            elif bluescreen_button_rect.collidepoint(pos):
-                game_config.initial_page_load = False
-                game_config.blue_screen_page_load = True
+            # elif bluescreen_button_rect.collidepoint(pos):
+                # game_config.initial_page_load = False
+                # game_config.blue_screen_page_load = True
             elif help_menu_button_rect.collidepoint(pos):
                 game_config.initial_page_load = False
                 game_config.help_screen_page_load = True
@@ -82,9 +82,6 @@ def initial_page(screen):
     # for event in pygame.event.get():
     #    if green_button.get_rect().collidepoint(pos):
     #        print("Button Clicked")
-
-
-
 
 
 def email_page(screen):   
@@ -238,6 +235,7 @@ def email_page(screen):
     
     if lives_left != 0:
         game_config.email_page_load = False
+        print("you win")
         game_config.initial_page_load = True # WIP: or victory screen
 
 def bluescreen(screen):
