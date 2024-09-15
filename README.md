@@ -4,7 +4,7 @@
 
 Short Description and where to download  
 Mention this is for the hackathon  
-Link to the pitch deck
+[Link to the pitch deck](https://www.canva.com/design/DAGQwwUeE7A/aZO6ra9MqqSiGXDt45S2fQ/edit?utm_content=DAGQwwUeE7A&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton)
 
 ## Installation
 
