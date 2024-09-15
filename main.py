@@ -1,5 +1,6 @@
 import pygame
 import game_config
+from make_emails import make_emails
 
 
 class Button:
@@ -79,7 +80,11 @@ def email_page(screen):
     global running
     global initial_page_load
     global email_page_load
+    
+    WIDTH, HEIGHT = screen.get_size()
+
     screen.fill("white")
+    pygame.display.flip()
 
     # Background image
     bg_image = pygame.image.load("./images/email-bg.png")
@@ -92,33 +97,64 @@ def email_page(screen):
 
     back_button = pygame.Surface((back_button_width, back_button_height))
     back_button.fill((125, 95, 125))
-    back_button_rect = pygame.Rect((5, 5, back_button_width, back_button_height))
+    back_button_rect = pygame.Rect((1230 - 5, 5, back_button_width, back_button_height))
     back_button_font = pygame.font.Font(None, 35)
 
     back_button_text = back_button_font.render("B", True, (0, 0, 0))
-    back_button.blit(back_button_text, (6, 4))
+    back_button.blit(back_button_text, (5, 4))
 
     screen.blit(back_button, back_button_rect.topleft)
 
+    # email buttons
+
+    email_rect = pygame.Rect(0, 0, WIDTH * 0.2488, HEIGHT / 2.89)
+    
+    # WIP: might delete later
+    # email1 = pygame.draw.rect(screen, (0, 0, 255), email_rect)
+
+    # email_rect.y = email1.bottom
+    # email2 = pygame.draw.rect(screen, (255, 0, 255), email_rect)
+
+    # email_rect.y = email2.bottom
+    # email3 = pygame.draw.rect(screen, (255, 255, 0), email_rect)
+
+    email_rect.y = 0
+    email_rect.h = HEIGHT
+
+    # WIP: in case we can't get pfp's
+    pygame.draw.rect(screen, (255, 0, 255), [436, 180, 55, 55])
+
+    emails = make_emails(screen)
+
     # Event loop
-    for event in pygame.event.get():
-        # Quit the game
-        if event.type == pygame.QUIT:
-            game_config.running = False
+    curr_running = True
+    while curr_running:
+        for event in pygame.event.get():
+            # Quit the game
+            if event.type == pygame.QUIT:
+                curr_running = False
+                game_config.running = False
 
-        # Buttons alone
-        if event.type == pygame.MOUSEBUTTONUP:
-            pos = pygame.mouse.get_pos()
+            # Buttons alone
+            if event.type == pygame.MOUSEBUTTONUP:
+                pos = pygame.mouse.get_pos()
 
-            # Back button
-            if back_button_rect.collidepoint(pos):
-                print("Going back to start")
-                game_config.initial_page_load = True
-                game_config.email_page_load = False
+                # Back button
+                if back_button_rect.collidepoint(pos):
+                    print("Going back to start")
+                    curr_running = False
+                    game_config.initial_page_load = True
+                    game_config.email_page_load = False
 
-            # Other buttons
+                # side emails
+                if email_rect.collidepoint(pos):
+                    email_num = pos[1] // (HEIGHT / 3) + 1
+                    print(email_num)
+                    to_display = emails[(int)(email_num) - 1]
+                    screen.blit(to_display.body, (email_rect.right, HEIGHT / 3))
+    
+        pygame.display.flip()
 
-NUM_LIVES = 3
 def bluescreen(screen):
     global NUM_LIVES
     WIDTH, HEIGHT = screen.get_size()

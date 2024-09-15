@@ -1,6 +1,7 @@
 import pygame
 import game_config
 from email import Email
+from make_emails import make_emails
 
 page_load = False
 curr_email = -1
@@ -16,29 +17,6 @@ def email_page(screen):
 
     screen.fill("white")
     pygame.display.flip()
-
-    # Sample emails
-    body_font = pygame.font.Font(None, 100)
-    
-    legit1_body = pygame.Surface((WIDTH * (1 - 0.2488), HEIGHT))
-    legit1_text = body_font.render("lazy ahhhh boy", True, (0, 0, 0))
-    legit1_body.blit(legit1_text, (0, 0))
-
-    legit1 = Email("Do your homework!", "Ms. Teacher", "t.cher@gmail.com", legit1_body, "reply", "real teacher")
-
-    evil1_body = pygame.Surface((WIDTH * (1 - 0.2488), HEIGHT))
-    evil1_text = body_font.render("CLICK THE LINK BELOW \\/ \\/ \\/", True, (0, 0, 0))
-    evil1_body.blit(evil1_text, (0, 0))
-
-    evil1 = Email("1,000,000 FREE ROBUX!", "Robux Raider", "3yd98@hotmail.to", evil1_body, "report", "malicious link")
-
-    evil2_body = pygame.Surface((WIDTH * (1 - 0.2488), HEIGHT))
-    evil2_text = body_font.render("go to my ig <3 \\/ \\/ \\/", True, (0, 0, 0))
-    evil2_body.blit(evil2_text, (0, 0))
-
-    evil2 = Email("i wuv u :3", "Bethany Aberdale", "baberd@yahoo.com", evil2_body, "report", "malicious link")
-
-    emails = [legit1, evil1, evil2]
 
     # Background image
     bg_image = pygame.image.load("./images/email-bg.png")
@@ -78,6 +56,8 @@ def email_page(screen):
     # WIP: in case we can't get pfp's
     pygame.draw.rect(screen, (255, 0, 255), [436, 180, 55, 55])
 
+    emails = make_emails(screen)
+
     # Event loop
     curr_running = True
     while curr_running:
@@ -94,6 +74,7 @@ def email_page(screen):
                 # Back button
                 if back_button_rect.collidepoint(pos):
                     print("Going back to start")
+                    curr_running = False
                     game_config.initial_page_load = True
                     game_config.email_page_load = False
 
@@ -103,6 +84,8 @@ def email_page(screen):
                     print(email_num)
                     to_display = emails[(int)(email_num) - 1]
                     screen.blit(to_display.body, (email_rect.right, HEIGHT / 3))
+    
+        pygame.display.flip()
 
     
 
