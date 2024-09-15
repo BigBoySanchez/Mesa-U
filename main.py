@@ -264,10 +264,10 @@ def bluescreen(screen):
 
     retry_button = pygame.Surface((200, 50))
     retry_button.fill((255, 255, 255))
-    retry_button_rect = pygame.Rect((600, 600, 200, 50))
+    retry_button_rect = pygame.Rect((550, 600, 200, 50))
     retry_button_font = pygame.font.Font(None, 35)
     retry_button_text = retry_button_font.render("New Game", True, (0, 0, 0))
-    retry_button.blit(retry_button_text, (5, 5))
+    retry_button.blit(retry_button_text, (38, 13))
 
     screen.blit(retry_button, retry_button_rect)
 
