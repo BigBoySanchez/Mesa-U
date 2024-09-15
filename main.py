@@ -167,7 +167,6 @@ def email_page(screen):
         pygame.display.flip()
 
 def bluescreen(screen):
-    global NUM_LIVES
     WIDTH, HEIGHT = screen.get_size()
 
     mouse_pos = pygame.mouse.get_pos()
@@ -203,12 +202,12 @@ def bluescreen(screen):
     # making the loss info boxes
     infoWidth = WIDTH / 1.5
     wholeRect = pygame.draw.rect(screen, (255, 255, 255), [whyRect.right + 40, whyRect.bottom + 10, infoWidth, 100])
-    for x in range(0, NUM_LIVES):
+    for x in range(0, game_config.NUM_LIVES):
         if x != 0:
-            pygame.draw.line(screen, (0, 0, 0), ((x * infoWidth / NUM_LIVES) + wholeRect.x, wholeRect.top), ((x * infoWidth / NUM_LIVES) + wholeRect.x, wholeRect.bottom))
+            pygame.draw.line(screen, (0, 0, 0), ((x * infoWidth / game_config.NUM_LIVES) + wholeRect.x, wholeRect.top), ((x * infoWidth / game_config.NUM_LIVES) + wholeRect.x, wholeRect.bottom))
         
         numText = numFont.render((str)(x + 1), True, (0, 0, 0))
-        numRect = numText.get_rect(center=(wholeRect.x + ((x + 0.5) * infoWidth / NUM_LIVES), wholeRect.y + (wholeRect.h / 2)))
+        numRect = numText.get_rect(center=(wholeRect.x + ((x + 0.5) * infoWidth / game_config.NUM_LIVES), wholeRect.y + (wholeRect.h / 2)))
 
         screen.blit(numText, (numRect.left, numRect.top))
 
