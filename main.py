@@ -131,9 +131,53 @@ def email_page(screen):
         chosen_emails.append(chosen_email)
         emails.remove(chosen_email)
 
+    # mark the first email
+    screen.blit(heart_image, (41.5, 80 + (0 * (HEIGHT / 3.0889))))
+
+    # make reply / report buttons
+    button_dist = 100
+    
+    reply_scale = 0.2
+    reply_image = pygame.image.load("./images/login-btn.png") # WIP: Placeholder. Get an actual reply button later.
+    reply_width, reply_height = reply_image.get_size()
+    reply_image = pygame.transform.scale(reply_image, (reply_width * reply_scale, reply_height * reply_scale))
+    reply_rect = reply_image.get_rect(topleft=((WIDTH * 0.2488 + (WIDTH * (1 - 0.2488 + 0.001) / 2) - button_dist - reply_image.get_width()), HEIGHT * 7 / 8))
+    
+    report_scale = 0.2
+    report_image = pygame.image.load("./images/report-btn.png")
+    report_width, report_height = report_image.get_size()
+    report_image = pygame.transform.scale(report_image, (report_width * report_scale, report_height * report_scale))
+    report_rect = report_image.get_rect(topleft=(WIDTH * 0.2488 + (WIDTH * (1 - 0.2488 + 0.001) / 2) + button_dist, HEIGHT * 7 / 8))
+
     # Event loop
     curr_running = True
-    while curr_running:
+    curr_button = None
+    email_num = 0
+    points = 0
+    lives_left = game_config.NUM_LIVES
+    while curr_running and len(emails) >= 3:
+        #clear previous email
+        right_rect = pygame.draw.rect(screen, (255, 255, 255), [email_rect.right, 40, WIDTH * (1 - 0.2488 + 0.001), HEIGHT])
+        to_display = chosen_emails[email_num]
+
+        subject_font = pygame.font.Font(None, 70)
+        subject_text = subject_font.render(to_display.subject, True, (0, 0, 0))
+        subject_rect = screen.blit(subject_text, (pfp_rect.left - 10, 40))
+
+        name_font = pygame.font.Font(None, 40)
+        name_text = name_font.render(to_display.name, True, (121, 121, 121))
+        name_rect = screen.blit(name_text, (subject_rect.left, subject_rect.bottom))
+
+        addy_font = pygame.font.Font(None, 40)
+        addy_text = addy_font.render("<" + to_display.address + ">", True, (121, 121, 121))
+        addy_rect = screen.blit(addy_text, (name_rect.right + 20, name_rect.top))
+        
+        screen.blit(to_display.body, (subject_rect.left, addy_rect.bottom + 40))
+
+        # display buttons
+        screen.blit(reply_image, reply_rect)
+        screen.blit(report_image, report_rect)
+        
         for event in pygame.event.get():
             # Quit the game
             if event.type == pygame.QUIT:
@@ -152,34 +196,49 @@ def email_page(screen):
                     game_config.email_page_load = False
 
                 # side emails
-                if email_rect.collidepoint(pos):
-                    right_rect = pygame.draw.rect(screen, (255, 255, 255), [email_rect.right, 40, WIDTH * (1 - 0.2488 + 0.001), HEIGHT])
-                    
-                    email_num = pos[1] // (HEIGHT / 3)
-                    to_display = chosen_emails[(int)(email_num)]
+                elif email_rect.collidepoint(pos):
+                    email_num = (int)(pos[1] // (HEIGHT / 3))
 
                     # clear previous marks
                     for i in range(0, 3):
                         pygame.draw.rect(screen, (255, 255, 255), [41.5, 80 + (i * (HEIGHT / 3.0889)), heart_width * heart_scale, heart_height * heart_scale])
+                    # mark the correct box
                     screen.blit(heart_image, (41.5, 80 + (email_num * (HEIGHT / 3.0889))))
 
+                elif reply_rect.collidepoint(pos) :
+                    if chosen_emails[email_num].check_solution("reply"):
+                        points += 1
+                    else:
+                        lives_left -= 1
+                        game_config.mistakes.append(chosen_emails[email_num])
 
-                    # mark the correct box
-                    subject_font = pygame.font.Font(None, 70)
-                    subject_text = subject_font.render(to_display.subject, True, (0, 0, 0))
-                    subject_rect = screen.blit(subject_text, (pfp_rect.left - 10, 40))
+                    chosen_emails.remove(chosen_emails[email_num])
+                    chosen_email = random.choice(emails)
+                    chosen_emails.append(chosen_email)
+                    emails.remove(chosen_email)
 
-                    name_font = pygame.font.Font(None, 40)
-                    name_text = name_font.render(to_display.name, True, (121, 121, 121))
-                    name_rect = screen.blit(name_text, (subject_rect.left, subject_rect.bottom))
+                elif report_rect.collidepoint(pos):
+                    if chosen_emails[email_num].check_solution("report"):
+                        points += 1
+                    else:
+                        lives_left -= 1
+                        game_config.mistakes.append(chosen_emails[email_num])
 
-                    addy_font = pygame.font.Font(None, 40)
-                    addy_text = addy_font.render("<" + to_display.address + ">", True, (121, 121, 121))
-                    addy_rect = screen.blit(addy_text, (name_rect.right + 20, name_rect.top))
-                    
-                    screen.blit(to_display.body, (subject_rect.left, addy_rect.bottom + 40))
-    
+                    chosen_emails.remove(chosen_emails[email_num])
+                    chosen_email = random.choice(emails)
+                    chosen_emails.append(chosen_email)
+                    emails.remove(chosen_email)
+                
+                if lives_left == 0:
+                    curr_running = False
+                    game_config.email_page_load = False
+                    game_config.blue_screen_page_load = True
+
         pygame.display.flip()
+    
+    if lives_left != 0:
+        game_config.email_page_load = False
+        game_config.initial_page_load = True # WIP: or victory screen
 
 def bluescreen(screen):
     WIDTH, HEIGHT = screen.get_size()
@@ -232,6 +291,8 @@ def bluescreen(screen):
             game_config.running = False
         if event.type == pygame.MOUSEBUTTONUP:
             if retry_button_rect.collidepoint(mouse_pos):
+                game_config.mistakes.clear()
+
                 game_config.initial_page_load = True
                 game_config.blue_screen_page_load = False
 
