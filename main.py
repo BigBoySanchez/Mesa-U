@@ -30,8 +30,8 @@ def initial_page(screen):
     screen.blit(bg_image, (0,0))
 
     # Main text
-    start_font = pygame.font.Font(None, 35)
-    start_text = start_font.render("Totally secure email client", True, (0, 0, 0))
+    start_font = pygame.font.Font(None, 45)
+    start_text = start_font.render("Totally secure email client", True, (255, 255, 255))
     screen.blit(start_text, (25, 25))
 
     # Begin Button
@@ -40,7 +40,7 @@ def initial_page(screen):
     begin_button_x = 540
     begin_button_y = 510
     begin_button = pygame.Surface((begin_button_width, begin_button_height))
-    begin_button_image = pygame.image.load("./images/login-btn.png")
+    begin_button_image = begin_button.fill((200, 200, 200))
     begin_button_rect = pygame.Rect((begin_button_x, begin_button_y, begin_button_width, begin_button_height))
     # begin_button.fill("white")
 

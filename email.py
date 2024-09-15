@@ -15,4 +15,5 @@ class Email:
     def check_solution(self, name):
         return name == self.solution
 
-    
+
+
