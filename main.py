@@ -86,12 +86,7 @@ def initial_page(screen):
 
 
 
-def email_page(screen):
-    # Globals
-    global running
-    global initial_page_load
-    global email_page_load
-    
+def email_page(screen):   
     WIDTH, HEIGHT = screen.get_size()
 
     screen.fill("white")
@@ -116,26 +111,19 @@ def email_page(screen):
 
     screen.blit(back_button, back_button_rect.topleft)
 
-    # email buttons
+    # life bar
+    heart_scale = 0.09
+    heart_image = pygame.image.load("./images/heart-full.png")
+    heart_width, heart_height = heart_image.get_size()
+    heart_image = pygame.transform.scale(heart_image, (heart_width * heart_scale, heart_height * heart_scale))
 
-    email_rect = pygame.Rect(0, 0, WIDTH * 0.2488, HEIGHT / 2.89)
-    
-    # WIP: might delete later
-    # email1 = pygame.draw.rect(screen, (0, 0, 255), email_rect)
-
-    # email_rect.y = email1.bottom
-    # email2 = pygame.draw.rect(screen, (255, 0, 255), email_rect)
-
-    # email_rect.y = email2.bottom
-    # email3 = pygame.draw.rect(screen, (255, 255, 0), email_rect)
-
-    email_rect.y = 0
-    email_rect.h = HEIGHT
+    # email sidebar and display
+    email_rect = pygame.Rect(0, 0, WIDTH * 0.2488, HEIGHT)
 
     # WIP: in case we can't get pfp's
-    pygame.draw.rect(screen, (255, 0, 255), [436, 180, 55, 55])
+    pfp_rect = pygame.draw.rect(screen, "white", [436, 180, 55, 55])
 
-    emails = make_emails(screen)
+    emails = make_emails(screen, "white")
 
     # Event loop
     curr_running = True
@@ -159,10 +147,31 @@ def email_page(screen):
 
                 # side emails
                 if email_rect.collidepoint(pos):
-                    email_num = pos[1] // (HEIGHT / 3) + 1
-                    print(email_num)
-                    to_display = emails[(int)(email_num) - 1]
-                    screen.blit(to_display.body, (email_rect.right, HEIGHT / 3))
+                    right_rect = pygame.draw.rect(screen, (255, 255, 255), [email_rect.right, 40, WIDTH * (1 - 0.2488 + 0.001), HEIGHT])
+                    
+                    email_num = pos[1] // (HEIGHT / 3)
+                    to_display = emails[(int)(email_num)]
+
+                    # clear previous marks
+                    for i in range(0, 3):
+                        pygame.draw.rect(screen, (255, 255, 255), [41.5, 80 + (i * (HEIGHT / 3.0889)), heart_width * heart_scale, heart_height * heart_scale])
+                    screen.blit(heart_image, (41.5, 80 + (email_num * (HEIGHT / 3.0889))))
+
+
+                    # mark the correct box
+                    subject_font = pygame.font.Font(None, 90)
+                    subject_text = subject_font.render(to_display.subject, True, (0, 0, 0))
+                    subject_rect = screen.blit(subject_text, (pfp_rect.left - 10, 40))
+
+                    name_font = pygame.font.Font(None, 40)
+                    name_text = name_font.render(to_display.name, True, (121, 121, 121))
+                    name_rect = screen.blit(name_text, (subject_rect.left, subject_rect.bottom))
+
+                    addy_font = pygame.font.Font(None, 40)
+                    addy_text = addy_font.render("<" + to_display.address + ">", True, (121, 121, 121))
+                    addy_rect = screen.blit(addy_text, (name_rect.right + 20, name_rect.top))
+                    
+                    screen.blit(to_display.body, (subject_rect.left, addy_rect.bottom + 40))
     
         pygame.display.flip()
 
