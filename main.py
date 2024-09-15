@@ -182,12 +182,56 @@ def bluescreen(screen):
                 game_config.initial_page_load = True
                 game_config.blue_screen_page_load = False
 
+
 def help_screen(screen):
     screen.fill("Grey")
+
+    lore_font = pygame.font.Font(None, 35)
+    lore_text = lore_font.render("As a student of California State University East Bay, it's critical to check your Email regularly!", True, (0, 0, 0))
+    screen.blit(lore_text, (10, 20))
+
+    help_font = pygame.font.Font(None, 35)
+    help_text = help_font.render("However, there may be scams, phishing attacks, and other dangers.", True, (0, 0, 0))
+    screen.blit(help_text, (10, 60))
+
+    help_font_two = pygame.font.Font(None, 35)
+    help_text_two = help_font_two.render("Here's a few ways to protect yourself", True, (0, 0, 0))
+    screen.blit(help_text_two, (10, 100))
+    
+    help_font_three = pygame.font.Font(None, 35)
+    help_text_three = help_font.render("    1. Double check who sent the email.", True, (0, 0, 0))
+    screen.blit(help_text_three, (10, 140))
+
+    help_font_four = pygame.font.Font(None, 35)
+    help_text_four = help_font.render("    2. Look out for spelling mistakes.", True, (0, 0, 0))
+    screen.blit(help_text_four, (10, 180))
+
+    help_font_five = pygame.font.Font(None, 35)
+    help_text_five = help_font.render("    3. Be weary of phrases like \"CRITICALLY IMPORTANT!!\" or \"YOU'RE ACCOUNT HAS BEEN HACKED!\"", True, (0, 0, 0))
+    screen.blit(help_text_five, (10, 220))
+
+    help_font_six = pygame.font.Font(None, 35)
+    help_text_six = help_font.render("    4. If you notice these things, don't click on any links or download any files.", True, (0, 0, 0))
+    screen.blit(help_text_six, (10, 260))
+
+    back_button = pygame.Surface((200, 50))
+    back_button.fill((255, 255, 255))
+    back_button_rect = pygame.Rect((500, 600, 200, 50))
+    back_button_font = pygame.font.Font(None, 35)
+    back_button_text = back_button_font.render("Back", True, (0, 0, 0))
+    back_button.blit(back_button_text, (72, 12))
+    screen.blit(back_button, back_button_rect)
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             game_config.running = False
+
+        if event.type == pygame.MOUSEBUTTONUP:
+            pos = pygame.mouse.get_pos()
+            if back_button_rect.collidepoint(pos):
+                game_config.help_screen_page_load = False
+                game_config.initial_page_load = True
+
 
 def main():
     pygame.init()
