@@ -235,7 +235,6 @@ def email_page(screen):
     
     if lives_left != 0:
         game_config.email_page_load = False
-        print("you win")
         game_config.initial_page_load = True # WIP: or victory screen
 
 def bluescreen(screen):
