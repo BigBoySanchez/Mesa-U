@@ -96,12 +96,12 @@ def email_page(screen):
     screen.blit(bg_image, (0,0))
 
     # Back button
-    back_button_width = 30
-    back_button_height = 30
+    back_button_width = 200
+    back_button_height = 50
 
     back_button = pygame.Surface((back_button_width, back_button_height))
     back_button.fill((200, 200, 200))
-    back_button_rect = pygame.Rect((1230 - 5, 5, back_button_width, back_button_height))
+    back_button_rect = pygame.Rect((900, 100, back_button_width, back_button_height))
     back_button_font = pygame.font.Font(None, 35)
 
     back_button_text = back_button_font.render("B", True, (0, 0, 0))
