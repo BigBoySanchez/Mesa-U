@@ -162,7 +162,7 @@ def email_page(screen):
 
         subject_font = pygame.font.Font(None, 70)
         subject_text = subject_font.render(to_display.subject, True, (0, 0, 0))
-        subject_rect = screen.blit(subject_text, (pfp_rect.left - 10, 40))
+        subject_rect = screen.blit(subject_text, (pfp_rect.left - 90, 40))
 
         name_font = pygame.font.Font(None, 40)
         name_text = name_font.render(to_display.name, True, (121, 121, 121))
