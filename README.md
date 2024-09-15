@@ -1,30 +1,29 @@
-# First Draft!! delete this and complete
-
 # Totally Secure Email Client
 
-Short Description and where to download  
-Mention this is for the hackathon  
-[Link to the pitch deck](https://www.canva.com/design/DAGQwwUeE7A/aZO6ra9MqqSiGXDt45S2fQ/edit?utm_content=DAGQwwUeE7A&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton)
+A game that helps you learn how to detect malicious emails.
+ 
+[View the pitch deck here](https://www.canva.com/design/DAGQwwUeE7A/aZO6ra9MqqSiGXDt45S2fQ/edit?utm_content=DAGQwwUeE7A&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton)!
 
 ## Installation
 
-Once you've downloaded the latest release, you must [install pygame.](https://www.pygame.org/wiki/GettingStarted#Pygame%20Installation)
+Clone the repo or download the latest release.  
+
+To run the game, you must [install pygame.](https://www.pygame.org/wiki/GettingStarted#Pygame%20Installation)
 
 ```shell
 python3 -m pip install -U pygame --user
 ```
 
-To test the game, run:
+To play the game, run:
 
 ```shell
 python3 main.py
 ```
 
-
 ## Credits
 
-@username - your main role (programming, research, design)   
-@username - your main role (programming, research, design)   
+[@yoshiyahoo](https://github.com/yoshiyahoo) - Programmer  
+[@BigBoySanchez](https://github.com/BigBoySanchez) - Programmer  
 [@adxmxrxz](https://github.com/adxmxrxz) - Researcher   
 [@srciaga](https://github.com/srciaga) - Designer
   
