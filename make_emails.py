@@ -49,6 +49,7 @@ def make_emails(screen, body_color):
     emails.append(legit1)
 
     evil1_body = pygame.Surface((WIDTH * (1 - 0.2488), HEIGHT))
+    evil1_body_rect = evil1_body.get_rect()
     evil1_body.fill(body_color)
     line_wrap(evil1_body, "CLICK THE LINK BELOW \\/ \\/ \\/")
 

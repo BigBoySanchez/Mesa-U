@@ -156,6 +156,13 @@ def email_page(screen):
     points = 0
     lives_left = game_config.NUM_LIVES
     while curr_running and len(emails) >= 3:
+        # refresh lives_left
+        pygame.draw.rect(screen, (255, 255, 255), [email_rect.right + 10, 5, heart_width * heart_scale * 4, heart_height * heart_scale])
+
+        for i in range(0, lives_left):
+            screen.blit(heart_image, (email_rect.right + 10 + (i * heart_width * heart_scale * 1.5), 5))
+        
+        
         #clear previous email
         right_rect = pygame.draw.rect(screen, (255, 255, 255), [email_rect.right, 40, WIDTH * (1 - 0.2488 + 0.001), HEIGHT])
         to_display = chosen_emails[email_num]
@@ -204,6 +211,7 @@ def email_page(screen):
                         pygame.draw.rect(screen, (255, 255, 255), [41.5, 80 + (i * (HEIGHT / 3.0889)), heart_width * heart_scale, heart_height * heart_scale])
                     # mark the correct box
                     screen.blit(heart_image, (41.5, 80 + (email_num * (HEIGHT / 3.0889))))
+                    curr_button = chosen_emails[email_num].button
 
                 elif reply_rect.collidepoint(pos) :
                     if chosen_emails[email_num].check_solution("reply"):
@@ -228,6 +236,9 @@ def email_page(screen):
                     chosen_email = random.choice(emails)
                     chosen_emails.append(chosen_email)
                     emails.remove(chosen_email)
+
+                elif curr_button and curr_button.collidepoint(pos):
+                    print("good")
                 
                 if lives_left == 0:
                     curr_running = False
@@ -242,8 +253,6 @@ def email_page(screen):
 
 def bluescreen(screen):
     WIDTH, HEIGHT = screen.get_size()
-
-    mouse_pos = pygame.mouse.get_pos()
 
     screen.fill("blue")
 
@@ -285,16 +294,34 @@ def bluescreen(screen):
 
         screen.blit(numText, (numRect.left, numRect.top))
 
+    curr_running = True
+    while curr_running:
+        for event in pygame.event.get():
+            mouse_pos = pygame.mouse.get_pos()
+            
+            if event.type == pygame.QUIT:
+                curr_running = False
+                game_config.running = False
+            if event.type == pygame.MOUSEBUTTONUP:
+                if retry_button_rect.collidepoint(mouse_pos):
+                    curr_running = False
+                    game_config.mistakes.clear()
 
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            game_config.running = False
-        if event.type == pygame.MOUSEBUTTONUP:
-            if retry_button_rect.collidepoint(mouse_pos):
-                game_config.mistakes.clear()
+                    game_config.initial_page_load = True
+                    game_config.blue_screen_page_load = False
+                
+                if wholeRect.collidepoint(mouse_pos):
+                    mistake_num = (int)((mouse_pos[0] - 100) // ((wholeRect.w / game_config.NUM_LIVES)) - 1)
+                    pygame.draw.rect(screen, (255, 255, 255), [whyRect.right + 40 + (mistake_num * infoWidth / 3), wholeRect.top, infoWidth / 3, 100])
+                    tiny_font = pygame.font.Font(None, 20)
+                    mistake_text = tiny_font.render(game_config.mistakes[mistake_num].why, True, (0, 0, 0))
+                    screen.blit(mistake_text, (whyRect.right + 40 + (mistake_num * infoWidth / 3), wholeRect.top))
 
-                game_config.initial_page_load = True
-                game_config.blue_screen_page_load = False
+        pygame.display.flip()
+
+    game_config.blue_screen_page_load = False
+    game_config.initial_page_load = True
+                    
 
 
 def help_screen(screen):
