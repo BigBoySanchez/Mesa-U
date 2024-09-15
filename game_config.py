@@ -5,3 +5,4 @@ blue_screen_page_load = False
 help_screen_page_load = False
 running = True
 NUM_LIVES = 3
+mistakes = []
