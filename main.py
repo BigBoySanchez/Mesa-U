@@ -263,6 +263,11 @@ def help_screen(screen):
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             game_config.running = False
+        if event.type == pygame.MOUSEBUTTONUP:
+            pos = pygame.mouse.get_pos()
+            if back_button_rect.collidepoint(pos):
+                game_config.initial_page_load = True
+                game_config.help_screen_page_load = False
 
 
 def main():
