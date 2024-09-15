@@ -40,6 +40,7 @@ def initial_page(screen):
     begin_button_y = 510
     begin_button = pygame.Surface((begin_button_width, begin_button_height))
     begin_button_image = pygame.image.load("./images/login-btn.png")
+    begin_button_rect = pygame.Rect((begin_button_x, begin_button_y, begin_button_width, begin_button_height))
     # begin_button.fill("white")
 
     begin_button_font = pygame.font.Font(None, 35)
@@ -47,8 +48,16 @@ def initial_page(screen):
 
     begin_button.blit(begin_button_text, (71, 15))
 
+    # help menu button
+    help_menu_button = pygame.Surface((200, 50))
+    help_menu_button.fill((200, 200, 200))
+    help_menu_button_rect = pygame.Rect((25, 605, 200, 50)) # coordinates first, hitbox second
+    help_menu_button_font = pygame.font.Font(None, 35)
+    help_menu_button_text = help_menu_button_font.render("Help", True, (0, 0, 0))
+    help_menu_button.blit(help_menu_button_text, (72, 12))
+
+    screen.blit(help_menu_button, help_menu_button_rect)
     # Start button
-    begin_button_rect = pygame.Rect((begin_button_x, begin_button_y, begin_button_width, begin_button_height))
     bluescreen_button_rect = pygame.draw.rect(screen, (0, 255, 0), [1200, 600, begin_button_width, begin_button_height])
 
     screen.blit(begin_button, begin_button_rect.topleft)
@@ -59,13 +68,14 @@ def initial_page(screen):
             pos = pygame.mouse.get_pos()
             if begin_button_rect.collidepoint(pos):
                 # goto next screen
-                print("butoon clicked")
                 game_config.initial_page_load = False
                 game_config.email_page_load = True
             elif bluescreen_button_rect.collidepoint(pos):
-                print("blue")
                 game_config.initial_page_load = False
                 game_config.blue_screen_page_load = True
+            elif help_menu_button_rect.collidepoint(pos):
+                game_config.initial_page_load = False
+                game_config.help_screen_page_load = True
 
     # for event in pygame.event.get():
     #    if green_button.get_rect().collidepoint(pos):
@@ -97,6 +107,7 @@ def email_page(screen):
     back_button.blit(back_button_text, (6, 4))
 
     screen.blit(back_button, back_button_rect.topleft)
+
 
     # Event loop
     for event in pygame.event.get():
@@ -171,6 +182,13 @@ def bluescreen(screen):
                 game_config.initial_page_load = True
                 game_config.blue_screen_page_load = False
 
+def help_screen(screen):
+    screen.fill("Grey")
+
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            game_config.running = False
+
 def main():
     pygame.init()
     screen = pygame.display.set_mode((1270, 700))
@@ -183,6 +201,8 @@ def main():
             email_page(screen)
         elif game_config.blue_screen_page_load:
             bluescreen(screen)
+        elif game_config.help_screen_page_load:
+            help_screen(screen)
 
         pygame.display.flip()
 
