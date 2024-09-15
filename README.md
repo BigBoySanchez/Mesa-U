@@ -25,7 +25,7 @@ python3 main.py
 
 @username - your main role (programming, research, design)   
 @username - your main role (programming, research, design)   
-@adxmxrxz - Researcher   
+[@adxmxrxz](https://github.com/adxmxrxz) - Researcher   
 [@srciaga](https://github.com/srciaga) - Designer
   
 Main menu photo by [frank mckenna](https://unsplash.com/@frankiefoto) on Unsplash.
